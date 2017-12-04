@@ -10,7 +10,7 @@ public class GazeController : NetworkBehaviour {
 	private float worldRadius = 10f;
 	public GameObject endPoint;
 	public GameObject face;
-
+	private GameObject gazeObject;
 	// Position Storage Variables
 	Vector3 posOffset = new Vector3 ();
 	Vector3 tempPos = new Vector3 ();
@@ -19,9 +19,26 @@ public class GazeController : NetworkBehaviour {
 	Vector3 destinationPoint;
 
 	// Use this for initialization
-	void Start () {
+	void Start () {		
 		this.gazeLine = GetComponent<LineRenderer> ();
-		positionGazeViewObject ();
+
+		if (isServer) {
+			renderGaze (false);
+		}
+		if (isClient) {
+			positionGazeViewObject ();
+		} 
+	}
+
+	//get GazePrefab and disable rendering and interaction
+	void renderGaze(bool isRendered){
+		this.gazeLine.enabled = isRendered;
+		gazeObject = GameObject.FindGameObjectWithTag ("Gaze");
+		gazeObject.gameObject.GetComponent<CapsuleCollider> ().enabled = isRendered;
+		MeshRenderer[] renderings = gazeObject.GetComponentsInChildren<MeshRenderer> ();
+		foreach (MeshRenderer render in renderings) {
+			render.enabled = isRendered;
+		}
 	}
 	
 	// Update is called once per frame
@@ -29,18 +46,18 @@ public class GazeController : NetworkBehaviour {
 		floatAnimation ();
 		Vector3 gazeOrigin = transform.position;
 		Vector3 gazeDestination = new Vector3(-10f, 5f, -10f);
-		Debug.Log (isServer);
 
 		if (isServer) {
 			destinationPoint = Camera.main.ViewportToWorldPoint (new Vector3 (0.5f, 0.5f, worldRadius));
 		} else if (isClient) {
+			renderGaze (true);
 			faceTowards (destinationPoint);
 			drawLine (gazeOrigin, destinationPoint);
 		}
 	}
 
 	void positionGazeViewObject(){
-		transform.position = Camera.main.ViewportToWorldPoint (new Vector3 (0.2f, 0.7f, worldRadius));
+		transform.position = Camera.main.ViewportToWorldPoint (new Vector3 (0.2f, 0.7f, 2f));
 	}
 
 	void floatAnimation(){

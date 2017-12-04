@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(Collider))]
-public class Scene_Change : MonoBehaviour{
+public class Scene_Change : NetworkBehaviour {
 
 	public string sceneToChangeTo;
 	private int counterscene;
@@ -12,7 +13,7 @@ public class Scene_Change : MonoBehaviour{
 	void Start(){
 		SetGazedAt(false);
 	}
-
+		
 	public void SetGazedAt(bool gazedAt){
 			counterscene++;
 			if (counterscene % 2 == 0){
@@ -22,7 +23,12 @@ public class Scene_Change : MonoBehaviour{
 		}
 
 	public void ChangeToScene(){
-		Debug.Log ("HERE WE GO");
-		SceneManager.LoadScene (sceneToChangeTo);
+			broadcastSceneChange (sceneToChangeTo);
 	}
+
+	//changes the scene of the server and broadcasts change to rest of clients
+	void broadcastSceneChange(string scene){
+		NetworkManager.singleton.ServerChangeScene (scene);
+	}
+
 }
