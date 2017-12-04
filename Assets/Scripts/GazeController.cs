@@ -1,18 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class GazeController : MonoBehaviour {
+public class GazeController : NetworkBehaviour {
 
 //	public Camera playerCamera;
 	private LineRenderer gazeLine;
-	private float worldRadius = 4f;
+	private float worldRadius = 10f;
 	public GameObject endPoint;
 	public GameObject face;
 
 	// Position Storage Variables
 	Vector3 posOffset = new Vector3 ();
 	Vector3 tempPos = new Vector3 ();
+
+	[SyncVar]
+	Vector3 destinationPoint;
 
 	// Use this for initialization
 	void Start () {
@@ -25,8 +29,14 @@ public class GazeController : MonoBehaviour {
 		floatAnimation ();
 		Vector3 gazeOrigin = transform.position;
 		Vector3 gazeDestination = new Vector3(-10f, 5f, -10f);
-		faceTowards (gazeDestination);
-		drawLine (gazeOrigin, gazeDestination);
+		Debug.Log (isServer);
+
+		if (isServer) {
+			destinationPoint = Camera.main.ViewportToWorldPoint (new Vector3 (0.5f, 0.5f, worldRadius));
+		} else if (isClient) {
+			faceTowards (destinationPoint);
+			drawLine (gazeOrigin, destinationPoint);
+		}
 	}
 
 	void positionGazeViewObject(){
