@@ -43,6 +43,8 @@ public class GazeController : NetworkBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Camera.main == null)
+			return;
 		floatAnimation ();
 		Vector3 gazeOrigin = transform.position;
 		Vector3 gazeDestination = new Vector3(-10f, 5f, -10f);
