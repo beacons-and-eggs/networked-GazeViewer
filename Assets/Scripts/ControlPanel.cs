@@ -4,19 +4,14 @@ using UnityEngine;
 
 public class ControlPanel : MonoBehaviour {
 
-//	public Button screenBackButton;
-//	public Button screenNextButton;
-//	public Button worldBackButton;
-//	public Button worldNextButton;
-
-	public List<Sprite> slideLocation;//where do the slides live NOTE: USE ABSOLUTE PATH
 	public GameObject screen;
-
-	private SlideController sController;
+	public ViewerController sController;
 
 	void Start () {
 		//TODO: public instatiate a SceneView
-		sController = new SlideController(this.slideLocation, screen);
+		SlideViewerStateMachine slideViewerScript = screen.GetComponent<SlideViewerStateMachine>();
+		Debug.Log (slideViewerScript);
+		sController = slideViewerScript.viewerController;
 		this.sController.Update ();
 	}
 	

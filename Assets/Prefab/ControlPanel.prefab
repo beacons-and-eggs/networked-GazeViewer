@@ -81,7 +81,6 @@ GameObject:
   - component: {fileID: 65838628244393834}
   - component: {fileID: 114564277069303282}
   - component: {fileID: 114908653511686080}
-  - component: {fileID: 114352901748407500}
   m_Layer: 0
   m_Name: ControlPanel
   m_TagString: ControlPanel
@@ -552,18 +551,6 @@ MonoBehaviour:
   - Site1
   - Site2
   - Site3
---- !u!114 &114352901748407500
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1470785725901336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 745db54bca3134d118cca7c432f95bd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hingeJoints: []
 --- !u!114 &114360218473102612
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -607,11 +594,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4cd9152c8aea4e40a4807771be91ba8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slideLocation:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   screen: {fileID: 0}
 --- !u!114 &114564277069303282
 MonoBehaviour:
